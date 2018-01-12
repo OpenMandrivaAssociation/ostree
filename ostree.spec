@@ -9,10 +9,10 @@
 
 Summary:	Tool for managing bootable, immutable filesystem trees
 Name:		ostree
-Version:	2017.1
-Release:	%mkrel 1
+Version:	2017.15
+Release:	1
 #VCS: git:git://git.gnome.org/ostree
-Source0:	https://github.com/ostreedev/%{name}/releases/download/v%{version}/%{name}-%{version}.tar.xz
+Source0:	https://github.com/ostreedev/ostree/releases/download/v%{version}/libostree-%{version}.tar.xz
 Source1:	91-ostree.preset
 License:	LGPLv2+
 URL:		https://ostree.readthedocs.io/en/latest/
@@ -101,7 +101,7 @@ GRUB2 integration for OSTree
 %endif
 
 %prep
-%setup -q -n ostree-%{version}
+%setup -q -n libostree-%{version}
 %apply_patches
 
 %build
@@ -133,11 +133,13 @@ install -D -m 0644 %{SOURCE1} %{buildroot}%{_prefix}/lib/systemd/system-preset/9
 %{_mandir}/man*/*.*
 %{_prefix}/lib/systemd/system-preset/91-ostree.preset
 %exclude %{_sysconfdir}/grub.d/*ostree
-%exclude %{_libexecdir}/ostree/grub2*
+%exclude %{_libexecdir}/libostree/grub2*
 %{_prefix}/lib/ostree/ostree-prepare-root
 %{_prefix}/lib/ostree/ostree-remount
-# Moved in git master
-%{_libexecdir}/ostree/*
+/lib/systemd/system-generators/ostree-system-generator
+%{_prefix}/lib/tmpfiles.d/ostree-tmpfiles.conf
+%{_datadir}/bash-completion/completions/ostree
+%{_libexecdir}/libostree/*
 
 %files -n %{libname}
 %{_libdir}/lib%{name}-%{api}.so.%{major}*
@@ -157,5 +159,5 @@ install -D -m 0644 %{SOURCE1} %{buildroot}%{_prefix}/lib/systemd/system-preset/9
 %ifnarch s390 s390x %{arm}
 %files grub2
 %{_sysconfdir}/grub.d/*ostree
-%{_libexecdir}/ostree/grub2*
+%{_libexecdir}/libostree/grub2*
 %endif
