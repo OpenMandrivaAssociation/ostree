@@ -41,6 +41,7 @@ BuildRequires:	pkgconfig(fuse)
 BuildRequires:	pkgconfig(e2p)
 BuildRequires:	libcap-devel
 BuildRequires:	gpgme-devel
+BuildRequires:	libassuan-devel
 BuildRequires:	pkgconfig(libsystemd)
 BuildRequires:	pkgconfig(gobject-introspection-1.0)
 #BuildRequires:	dracut
