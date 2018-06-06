@@ -30,6 +30,7 @@ BuildRequires:	bison
 BuildRequires:	gtk-doc
 # Core requirements
 BuildRequires:	pkgconfig(libsoup-2.4)
+BuildRequires:	pkgconfig(zlib)
 BuildRequires:	attr-devel
 # Extras
 BuildRequires:	pkgconfig(mount)
