@@ -9,7 +9,7 @@
 
 Summary:	Tool for managing bootable, immutable filesystem trees
 Name:		ostree
-Version:	2018.5
+Version:	2018.7
 Release:	1
 #VCS: git:git://git.gnome.org/ostree
 Source0:	https://github.com/ostreedev/ostree/releases/download/v%{version}/libostree-%{version}.tar.xz
@@ -111,6 +111,9 @@ env NOCONFIGURE=1 ./autogen.sh
 %configure --disable-silent-rules \
 	   --enable-gtk-doc \
 	   --with-dracut=yesbutnoconf
+
+# HACK
+sed -i s'!-L\\{libdir\\}!-L%{_libdir}!g' Makefile
 %make
 
 %install
