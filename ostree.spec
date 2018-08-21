@@ -113,7 +113,7 @@ env NOCONFIGURE=1 ./autogen.sh
 	   --with-dracut=yesbutnoconf
 
 # HACK
-sed -i s'!-L\\{libdir\\} !-L%{_libdir}!g' Makefile
+sed -i s'!\\{libdir\\}!%{_libdir}!g' Makefile
 %make
 
 %install
