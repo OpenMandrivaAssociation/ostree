@@ -1,16 +1,16 @@
 # Warning: This package is synchronized with Fedora!
 
-%define		major 1
-%define		api 1
-%define		gir_major 1.0
-%define		libname %mklibname ostree %{major}
-%define		gir_name %mklibname ostree-gir %{gir_major}
-%define		develname %mklibname -d ostree
+%define major 1
+%define api 1
+%define gir_major 1.0
+%define libname %mklibname ostree %{major}
+%define gir_name %mklibname ostree-gir %{gir_major}
+%define develname %mklibname -d ostree
 
 Summary:	Tool for managing bootable, immutable filesystem trees
 Name:		ostree
-Version:	2018.8
-Release:	2
+Version:	2019.1
+Release:	1
 #VCS: git:git://git.gnome.org/ostree
 Source0:	https://github.com/ostreedev/ostree/releases/download/v%{version}/libostree-%{version}.tar.xz
 Source1:	91-ostree.preset
@@ -49,7 +49,7 @@ BuildRequires:	pkgconfig(gobject-introspection-1.0)
 # Runtime requirements
 Requires:	dracut
 Requires:	gnupg2
-Requires:	systemd-units
+Requires:	systemd
 
 %description
 OSTree is a tool for managing bootable, immutable, versioned
@@ -74,9 +74,9 @@ of both.
 %package -n %{develname}
 Summary:	Development headers for %{name}
 Group:		System/Libraries
-Requires:	%{name} =  %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:	%{libname} = %{version}-%{release}
-Requires:	%{gir_name} = %{version}-%{release}
+Requires:	%{name} =  %{EVRD}
+Requires:	%{libname} = %{EVRD}
+Requires:	%{gir_name} = %{EVRD}
 
 %description -n %{develname}
 This package includes the header files for the %{name} library.
@@ -84,7 +84,7 @@ This package includes the header files for the %{name} library.
 %package -n %{gir_name}
 Summary:	GObject Introspection interface description for %{name}
 Group:		System/Libraries
-Requires:	%{libname} = %{version}-%{release}
+Requires:	%{libname} = %{EVRD}
 
 %description -n %{gir_name}
 GObject Introspection interface description for %{name}.
@@ -103,29 +103,23 @@ GRUB2 integration for OSTree
 %endif
 
 %prep
-%setup -q -n libostree-%{version}
-%apply_patches
+%autosetup -n libostree-%{version} -p1
 
 %build
 env NOCONFIGURE=1 ./autogen.sh
-%configure --disable-silent-rules \
-	   --enable-gtk-doc \
-	   --with-dracut=yesbutnoconf
+%configure \
+    --disable-silent-rules \
+    --enable-gtk-doc \
+    --with-dracut=yesbutnoconf
 
 # HACK
 sed -i s'!\\{libdir\\}!%{_libdir}!g' Makefile
-%make
+%make_build
 
 %install
 %make_install
 find %{buildroot} -name '*.la' -delete
 install -D -m 0644 %{SOURCE1} %{buildroot}%{_prefix}/lib/systemd/system-preset/91-ostree.preset
-
-%post
-%systemd_post ostree-remount.service
-
-%preun
-%systemd_preun ostree-remount.service
 
 %files
 %{_bindir}/ostree
