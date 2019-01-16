@@ -130,6 +130,7 @@ install -D -m 0644 %{SOURCE1} %{buildroot}%{_prefix}/lib/systemd/system-preset/9
 %{_sysconfdir}/ostree
 %dir %{_prefix}/lib/dracut/modules.d/98ostree
 %{_unitdir}/ostree*.service
+%{_unitdir}/ostree*.path
 %{_prefix}/lib/dracut/modules.d/98ostree/*
 %{_mandir}/man*/*.*
 %{_prefix}/lib/systemd/system-preset/91-ostree.preset
