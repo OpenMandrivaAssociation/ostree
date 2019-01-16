@@ -40,10 +40,11 @@ BuildRequires:	libcap-devel
 BuildRequires:	gpgme-devel
 BuildRequires:	libassuan-devel
 BuildRequires:	pkgconfig(libsystemd)
+BuildRequires:	systemd-macros
 BuildRequires:	pkgconfig(gobject-introspection-1.0)
 BuildRequires:	pkgconfig(libcurl)
 BuildRequires:	pkgconfig(openssl)
-#BuildRequires:	dracut
+BuildRequires:	dracut
 
 # Runtime requirements
 Requires:	dracut
@@ -128,7 +129,7 @@ install -D -m 0644 %{SOURCE1} %{buildroot}%{_prefix}/lib/systemd/system-preset/9
 %{_datadir}/ostree/trusted.gpg.d
 %{_sysconfdir}/ostree
 %dir %{_prefix}/lib/dracut/modules.d/98ostree
-%{_systemunitdir}/ostree*.service
+%{_unitdir}/ostree*.service
 %{_prefix}/lib/dracut/modules.d/98ostree/*
 %{_mandir}/man*/*.*
 %{_prefix}/lib/systemd/system-preset/91-ostree.preset
