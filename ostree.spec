@@ -1,24 +1,21 @@
 # Warning: This package is synchronized with Fedora!
 
-%define		major 1
-%define		api 1
-%define		gir_major 1.0
-%define		libname %mklibname ostree %{major}
-%define		gir_name %mklibname ostree-gir %{gir_major}
-%define		develname %mklibname -d ostree
+%define major 1
+%define api 1
+%define gir_major 1.0
+%define libname %mklibname ostree %{major}
+%define gir_name %mklibname ostree-gir %{gir_major}
+%define develname %mklibname -d ostree
 
 Summary:	Tool for managing bootable, immutable filesystem trees
 Name:		ostree
-Version:	2018.7
+Version:	2019.1
 Release:	1
 #VCS: git:git://git.gnome.org/ostree
 Source0:	https://github.com/ostreedev/ostree/releases/download/v%{version}/libostree-%{version}.tar.xz
 Source1:	91-ostree.preset
 License:	LGPLv2+
 URL:		https://ostree.readthedocs.io/en/latest/
-
-# Patches from Fedora
-Patch2:		0001-ostree-remount-Explicitly-set-tmp-to-01777.patch
 
 BuildRequires:	git
 # We always run autogen.sh
@@ -44,12 +41,14 @@ BuildRequires:	gpgme-devel
 BuildRequires:	libassuan-devel
 BuildRequires:	pkgconfig(libsystemd)
 BuildRequires:	pkgconfig(gobject-introspection-1.0)
-#BuildRequires:	dracut
+BuildRequires:	pkgconfig(libcurl)
+BuildRequires:	pkgconfig(openssl)
+BuildRequires:	dracut
 
 # Runtime requirements
 Requires:	dracut
 Requires:	gnupg2
-Requires:	systemd-units
+Requires:	systemd
 
 %description
 OSTree is a tool for managing bootable, immutable, versioned
@@ -74,9 +73,9 @@ of both.
 %package -n %{develname}
 Summary:	Development headers for %{name}
 Group:		System/Libraries
-Requires:	%{name} =  %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:	%{libname} = %{version}-%{release}
-Requires:	%{gir_name} = %{version}-%{release}
+Requires:	%{name} =  %{EVRD}
+Requires:	%{libname} = %{EVRD}
+Requires:	%{gir_name} = %{EVRD}
 
 %description -n %{develname}
 This package includes the header files for the %{name} library.
@@ -84,7 +83,7 @@ This package includes the header files for the %{name} library.
 %package -n %{gir_name}
 Summary:	GObject Introspection interface description for %{name}
 Group:		System/Libraries
-Requires:	%{libname} = %{version}-%{release}
+Requires:	%{libname} = %{EVRD}
 
 %description -n %{gir_name}
 GObject Introspection interface description for %{name}.
@@ -103,29 +102,26 @@ GRUB2 integration for OSTree
 %endif
 
 %prep
-%setup -q -n libostree-%{version}
+%setup -qn libostree-%{version}
 %apply_patches
 
 %build
 env NOCONFIGURE=1 ./autogen.sh
-%configure --disable-silent-rules \
-	   --enable-gtk-doc \
-	   --with-dracut=yesbutnoconf
+%configure \
+    --disable-silent-rules \
+    --enable-gtk-doc \
+    --with-curl \
+    --with-openssl \
+    --with-dracut=yesbutnoconf
 
 # HACK
-sed -i s'!-L{libdir}!-L%{_libdir}!g' Makefile
+sed -i s'!\\{libdir\\}!%{_libdir}!g' Makefile
 %make
 
 %install
-%make_install
+%makeinstall_std
 find %{buildroot} -name '*.la' -delete
 install -D -m 0644 %{SOURCE1} %{buildroot}%{_prefix}/lib/systemd/system-preset/91-ostree.preset
-
-%post
-%systemd_post ostree-remount.service
-
-%preun
-%systemd_preun ostree-remount.service
 
 %files
 %{_bindir}/ostree
@@ -133,7 +129,8 @@ install -D -m 0644 %{SOURCE1} %{buildroot}%{_prefix}/lib/systemd/system-preset/9
 %{_datadir}/ostree/trusted.gpg.d
 %{_sysconfdir}/ostree
 %dir %{_prefix}/lib/dracut/modules.d/98ostree
-%{_systemunitdir}/ostree*.service
+%{_unitdir}/ostree*.service
+%{_unitdir}/ostree*.path
 %{_prefix}/lib/dracut/modules.d/98ostree/*
 %{_mandir}/man*/*.*
 %{_prefix}/lib/systemd/system-preset/91-ostree.preset
