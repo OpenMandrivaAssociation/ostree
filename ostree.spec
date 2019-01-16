@@ -17,9 +17,6 @@ Source1:	91-ostree.preset
 License:	LGPLv2+
 URL:		https://ostree.readthedocs.io/en/latest/
 
-# Patches from Fedora
-Patch2:		0001-ostree-remount-Explicitly-set-tmp-to-01777.patch
-
 BuildRequires:	git
 # We always run autogen.sh
 BuildRequires:	autoconf
@@ -44,6 +41,8 @@ BuildRequires:	gpgme-devel
 BuildRequires:	libassuan-devel
 BuildRequires:	pkgconfig(libsystemd)
 BuildRequires:	pkgconfig(gobject-introspection-1.0)
+BuildRequires:	pkgconfig(libcurl)
+BuildRequires:	pkgconfig(openssl)
 #BuildRequires:	dracut
 
 # Runtime requirements
@@ -110,6 +109,8 @@ env NOCONFIGURE=1 ./autogen.sh
 %configure \
     --disable-silent-rules \
     --enable-gtk-doc \
+    --with-curl \
+    --with-openssl \
     --with-dracut=yesbutnoconf
 
 # HACK
