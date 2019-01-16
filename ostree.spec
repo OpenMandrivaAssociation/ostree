@@ -40,7 +40,6 @@ BuildRequires:	libcap-devel
 BuildRequires:	gpgme-devel
 BuildRequires:	libassuan-devel
 BuildRequires:	pkgconfig(libsystemd)
-BuildRequires:	systemd-macros
 BuildRequires:	pkgconfig(gobject-introspection-1.0)
 BuildRequires:	pkgconfig(libcurl)
 BuildRequires:	pkgconfig(openssl)
@@ -103,7 +102,8 @@ GRUB2 integration for OSTree
 %endif
 
 %prep
-%autosetup -n libostree-%{version} -p1
+%setup -qn libostree-%{version}
+%apply_patches
 
 %build
 env NOCONFIGURE=1 ./autogen.sh
@@ -116,10 +116,10 @@ env NOCONFIGURE=1 ./autogen.sh
 
 # HACK
 sed -i s'!\\{libdir\\}!%{_libdir}!g' Makefile
-%make_build
+%make
 
 %install
-%make_install
+%makeinstall_std
 find %{buildroot} -name '*.la' -delete
 install -D -m 0644 %{SOURCE1} %{buildroot}%{_prefix}/lib/systemd/system-preset/91-ostree.preset
 
