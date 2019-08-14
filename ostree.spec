@@ -1,4 +1,5 @@
 # Warning: This package is synchronized with Fedora!
+%define _disable_lto %nil
 
 %define major 1
 %define api 1
@@ -113,6 +114,9 @@ env NOCONFIGURE=1 ./autogen.sh
     --with-curl \
     --with-openssl \
     --with-dracut=yesbutnoconf
+
+# https://gitlab.gnome.org/GNOME/gobject-introspection/issues/280
+sed -i 's!-fvisibility=hidden!-fvisibility=default!g' Makefile.in Makefile-libostree.am
 
 # HACK
 sed -i s'!\\{libdir\\}!%{_libdir}!g' Makefile
