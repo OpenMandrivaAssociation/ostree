@@ -11,7 +11,7 @@
 Summary:	Tool for managing bootable, immutable filesystem trees
 Name:		ostree
 Version:	2020.8
-Release:	2
+Release:	3
 #VCS: git:git://git.gnome.org/ostree
 Source0:	https://github.com/ostreedev/ostree/releases/download/v%{version}/libostree-%{version}.tar.xz
 Source1:	91-ostree.preset
@@ -130,6 +130,7 @@ install -D -m 0644 %{SOURCE1} %{buildroot}%{_prefix}/lib/systemd/system-preset/9
 %files
 %{_bindir}/ostree
 %{_bindir}/rofiles-fuse
+%dir %{_datadir}/ostree
 %{_datadir}/ostree/trusted.gpg.d
 %{_sysconfdir}/ostree
 %dir %{_prefix}/lib/dracut/modules.d/98ostree
@@ -140,11 +141,13 @@ install -D -m 0644 %{SOURCE1} %{buildroot}%{_prefix}/lib/systemd/system-preset/9
 %{_prefix}/lib/systemd/system-preset/91-ostree.preset
 %exclude %{_sysconfdir}/grub.d/*ostree
 %exclude %{_libexecdir}/libostree/grub2*
+%dir %{_prefix}/lib/ostree
 %{_prefix}/lib/ostree/ostree-prepare-root
 %{_prefix}/lib/ostree/ostree-remount
 /lib/systemd/system-generators/ostree-system-generator
 %{_prefix}/lib/tmpfiles.d/ostree-tmpfiles.conf
 %{_datadir}/bash-completion/completions/ostree
+%dir %{_libexecdir}/libostree
 %{_libexecdir}/libostree/*
 
 %files -n %{libname}
