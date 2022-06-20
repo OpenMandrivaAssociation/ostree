@@ -10,8 +10,8 @@
 
 Summary:	Tool for managing bootable, immutable filesystem trees
 Name:		ostree
-Version:	2022.1
-Release:	2
+Version:	2022.4
+Release:	1
 #VCS: git:git://git.gnome.org/ostree
 Source0:	https://github.com/ostreedev/ostree/releases/download/v%{version}/libostree-%{version}.tar.xz
 Source1:	91-ostree.preset
@@ -144,7 +144,7 @@ install -D -m 0644 %{SOURCE1} %{buildroot}%{_prefix}/lib/systemd/system-preset/9
 %dir %{_prefix}/lib/ostree
 %{_prefix}/lib/ostree/ostree-prepare-root
 %{_prefix}/lib/ostree/ostree-remount
-/lib/systemd/system-generators/ostree-system-generator
+%{_prefix}/lib/systemd/system-generators/ostree-system-generator
 %{_prefix}/lib/tmpfiles.d/ostree-tmpfiles.conf
 %{_datadir}/bash-completion/completions/ostree
 %dir %{_libexecdir}/libostree
