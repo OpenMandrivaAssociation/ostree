@@ -10,8 +10,8 @@
 
 Summary:	Tool for managing bootable, immutable filesystem trees
 Name:		ostree
-Version:	2022.7
-Release:	2
+Version:	2024.5
+Release:	1
 #VCS: git:git://git.gnome.org/ostree
 Source0:	https://github.com/ostreedev/ostree/releases/download/v%{version}/libostree-%{version}.tar.xz
 Source1:	91-ostree.preset
@@ -27,7 +27,7 @@ BuildRequires:	bison
 # For docs
 BuildRequires:	gtk-doc
 # Core requirements
-BuildRequires:	pkgconfig(libsoup-2.4)
+BuildRequires:	pkgconfig(libsoup-3.0)
 BuildRequires:	pkgconfig(zlib)
 BuildRequires:	attr-devel
 # Extras
@@ -108,6 +108,7 @@ GRUB2 integration for OSTree
 
 %build
 env NOCONFIGURE=1 ./autogen.sh
+export CFLAGS="%optflags -Wno-undef"
 %configure \
     --disable-silent-rules \
     --enable-gtk-doc \
