@@ -16,7 +16,7 @@ Release:	1
 Source0:	https://github.com/ostreedev/ostree/releases/download/v%{version}/libostree-%{version}.tar.xz
 Source1:	91-ostree.preset
 License:	LGPLv2+
-URL:		https://ostree.readthedocs.io/en/latest/
+URL:		https://ostreedev.github.io/ostree/
 
 BuildRequires:	git
 # We always run autogen.sh
