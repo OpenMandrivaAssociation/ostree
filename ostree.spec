@@ -11,7 +11,7 @@
 Summary:	Tool for managing bootable, immutable filesystem trees
 Name:		ostree
 Version:	2024.8
-Release:	1
+Release:	2
 #VCS: git:git://git.gnome.org/ostree
 Source0:	https://github.com/ostreedev/ostree/releases/download/v%{version}/libostree-%{version}.tar.xz
 Source1:	91-ostree.preset
