@@ -18,6 +18,8 @@ Source1:	91-ostree.preset
 License:	LGPLv2+
 URL:		https://ostreedev.github.io/ostree/
 
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
 BuildRequires:	git
 # We always run autogen.sh
 BuildRequires:	autoconf
