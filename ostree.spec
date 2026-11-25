@@ -10,7 +10,7 @@
 
 Summary:	Tool for managing bootable, immutable filesystem trees
 Name:		ostree
-Version:	2026.2
+Version:	2026.7
 Release:	1
 #VCS: git:git://git.gnome.org/ostree
 Source0:	https://github.com/ostreedev/ostree/releases/download/v%{version}/libostree-%{version}.tar.xz
@@ -107,7 +107,7 @@ GRUB2 integration for OSTree
 %endif
 
 %prep
-%autosetup -n libostree-2026.2 -p1
+%autosetup -n libostree-%{version} -p1
 
 %build
 env NOCONFIGURE=1 ./autogen.sh
